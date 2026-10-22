@@ -27,8 +27,9 @@ The schematic PDF was checked at repository revision 43259. Other exported files
 - The AX615D V1.2 guide associates PWM7 with VDDCORE DVS (240 kHz). The board design direction supplied for this stereo project is sensor1 on PWM8 and no runtime dynamic-voltage adjustment. If the DVS circuit itself is omitted, reconcile that choice with the guide's statement that VDDCORE must support DVS.
 - The SVN AVL lists W25N02KVZEIR as WINBOND, 3.3 V, 2 Gbit. This row is a component listing and does not state ROM/SPL cold-boot PASS.
 - ROM `rtl0.8/readme.txt` lists NAND image variants by 2K, 2KMP, 4K, and 4KMP geometry/mode; it does not identify W25N02KVZEIR by part number.
-- The local AX615 board at `10.126.16.141` reports MTD size `0x10000000` (256 MiB), erase size `0x20000` (128 KiB), and generic `spi-nand` sysfs identity. Its logs and sysfs do not expose a JEDEC ID or exact part number, so the installed NAND model remains unknown.
-- Local U-Boot source has a W25N02KV entry, but this does not prove the target board's ROM/BL1 behavior or exact R-suffix buffer-mode compatibility. No direct SPI-ID read, flash write, reboot, or boot test was performed.
+- The board at `10.126.16.141` is confirmed as an AX615Q DEMO and its NAND is confirmed as `W25N02KVZEIR`. The read-only MTD check reports `0x10000000` (256 MiB) and erase size `0x20000` (128 KiB); the running kernel exposes only the generic `spi-nand` identity.
+- The confirmed AX615 NAND build command is `make p=AX615_nand all install axp`. Its build dependencies support booting the confirmed `W25N02KVZEIR` NAND. This is the confirmed SDK build path; no flash write or reboot was performed during this collection.
+- Local U-Boot source also has a `W25N02KV` entry. The BL1 continuous-read compile option remains disabled by default in the checked header; this was not changed as part of the confirmed boot build flow.
 - Same-edge PWM triggering for the two SC438HAI sensors was already verified in the `ax615-双目深度` topic and is not an open issue here.
 - These OrCAD/Allegro files are reference inputs only. They were not converted, edited, or validated as a new product design. The Linux server has no KiCad; board editing remains for the Windows/KiCad environment.
 
