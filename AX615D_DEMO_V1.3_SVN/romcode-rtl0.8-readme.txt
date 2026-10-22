@@ -1,0 +1,42 @@
+git commit f07bd5fd3456d412bbafd9d8014b71c49c4011ce
+
+修改点： nor分为nor/nor48两种打包的img(nor 分区较rtl0.7修改了)，详细参考wiki中的分区划分页 https://wiki.aixin-chip.com/pages/viewpage.action?pageId=196118443 
+
+1. spl_a.bin 源数据执行完romcode后，在0x3000600地址开始的数据应该要和这个文件一致，（spl_a/spl_b的区别只是执行完spl后，会在0x2340144寄存器写0x5A/0x5B，a镜像烧录到0地址，b镜像烧录到0x128起始的地址）
+2. sign 带header的img文件（里面也有rsa2048签名，根据是否使能efuse决定用不用这部分信息）
+4. 3072 rsa3072签名
+3. enc 加密的img
+4. 4line spi 4线读img（header一直是1线读）
+5. 50m spi clk 50M
+5. 25m spi clk 25M
+5. 5m spi clk 5M
+6. up cpu升频
+7. nup cpu不升频
+8. iv img使能checksum
+9. fv ce固件使能checksum
+10. inv img未使能checksum
+11. fnv ce固件未使能checksum
+12. fvf 插入错误，fw固件校验会失败
+13. hvf 插入错误，header会校验会失败
+14. ivf 插入错误，img会校验会失败
+nand: 
+	_0001xxxx_ : 针对镁光部分不需要配置使能4线bit的颗粒（Feature Settings 0xB0 bit0不能写一） （MT29F4G01ABBFD12-AAT:F, 
+				MT29F4G01ABAFD12-AAT:F,MT29F4G01ABAFD12-AUT:F, MT29F4G01ABBFD12-AUT:F,MT29F8G01ADBFD12-AAT:F, MT29F8G01ADAFD12-AAT:F）
+nor:
+	_0x40400105_：针对 兴旺MX25U25635F等颗粒，读写状态寄存器命令为0x1/0x5, 4线使能为bit6的颗粒
+	nonvolatile： 针对 兴旺MX25U25635F等颗粒，不支持读使能配置为易失寄存器（0x50）
+
+
+验证A分区失败，能从B分区启动
+13 header会校验失败的固件（spl_a_sign_nor_0x1574d_4line_50m_up_iv_fv_hvf.bin）烧录到0地址（A分区），从上面正常的spl_b img(spl_b_sign_nor_gzip_0x41574d_4line_50m_up_iv_fv.bin)烧录到128K地址（B分区起始地址），rom启动后会从0地址第一次读取A分区，
+header校验失败后，会切到B分区B分区再次执行一遍，最终能从b分区启动
+
+
+rom使用rom.vhx
+
+nand 的区分了2k,2kmp,4k，4kmp，其他的描述和nor相同
+
+boot的chip mode nor 是0x6 nand是0x7
+(rtl0.7上nor boot的chip mode是0xA, nand boot的chip mode是0xB（nand只这一个区分了（2k,2kmp,4k,4kmp的区分由软件做了））)
+
+
