@@ -11,6 +11,7 @@ The schematic PDF was checked at repository revision 43259. Other exported files
 
 ## Files
 
+- `PCB-DESIGN-INPUTS.md`: home KiCad design-input checklist, separating confirmed decisions from missing supplier/mechanical/fab inputs.
 - `AX615D_DEMO_V1_3.pdf`, `AX615D_DEMO_V1_3.DSN`: AX615D DEMO V1.3 Capture schematic and PDF.
 - `AX615D_DEMO_V1_3.BRD`: AX615D DEMO V1.3 Allegro reference board.
 - `AX615D_DEMO_V1_3_BOM.xlsx`: V1.3 bill of materials.
@@ -18,6 +19,7 @@ The schematic PDF was checked at repository revision 43259. Other exported files
 - `AX615D_DEMO使用指南_V1.0.docx`: DEMO usage guide.
 - `AX615D_硬件设计CheckList_V1.1.docx`: hardware checklist.
 - `AX615D_Device_Specification_V0.9.docx`, `AX615D_PIN_OUT.xlsx`: AX615D device specification and pinout.
+- `AX615D_VI输入接口场景_V0.6.xlsx`: AX615D VI pinmux/input combinations, including DPHY 2/4-lane, RX and BT/DVP reuse cases.
 - `AX615_AVL_V1.1.xlsx`: AVL, including W25N02KVZEIR.
 - `romcode-rtl0.8-readme.txt`: ROM NAND image variant notes; ROM binaries were not copied.
 - `SENSOR_SC438HAI_V1_0.pdf`, `SENSOR_SC438HAI_V1_0_Assembly.pdf`: existing local SC438HAI reference files, copied into this packet without modification.
@@ -33,6 +35,6 @@ The schematic PDF was checked at repository revision 43259. Other exported files
 - Same-edge PWM triggering for the two SC438HAI sensors was already verified in the `ax615-双目深度` topic and is not an open issue here.
 - These OrCAD/Allegro files are reference inputs only. They were not converted, edited, or validated as a new product design. The Linux server has no KiCad; board editing remains for the Windows/KiCad environment.
 
-## Git status at collection
+## Git status
 
-`/home/liyue/pcb` was not a Git worktree when checked. No repository was initialized, and no commit or push was made. Add this packet only to the intended private repository after checking that repository's destination and status.
+Repository: `git@github.com:liyue75/pcb.git`, branch `main`. The packet and original SC438HAI PDFs were committed and pushed in `9d20ea2` and `3741ee9`; later additions are tracked in subsequent commits.
